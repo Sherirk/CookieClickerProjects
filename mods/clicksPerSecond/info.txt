@@ -1,0 +1,12 @@
+{
+    "Name": "Clicks Per Second",
+    "ID": "srkClicksPerSecond",
+    "Author": "Sherirk",
+    "Description": "Displays clicks per second and total cookies per second.",
+    "ModVersion": 1,
+    "GameVersion": 2.052,
+    "Date": "31/05/2023",
+    "Dependencies": [],
+    "Disabled": 1,
+    "AllowSteamAchievs": 1
+}

@@ -1,0 +1,11 @@
+{
+	"Name": "Disable Achievements",
+	"ID": "srkSteamAchievementBlocker",
+	"Author": "Sherirk",
+	"Description": "A mod to disable achievements... why would you want this?",
+	"ModVersion": 2,
+	"GameVersion": 2.052,
+	"Date": "31/05/2023",
+	"Dependencies": [],
+	"Disabled": 1
+}

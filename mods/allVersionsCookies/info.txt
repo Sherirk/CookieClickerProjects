@@ -1,0 +1,12 @@
+{
+	"Name": "Steamed/Web Cookies",
+	"ID": "srkAllVersionCookies",
+	"Author": "Sherirk",
+	"Description": "A simple mod that allows you to buy both platform exclusive cookies without having to use your save in both. Somehow got to a version 3.",
+	"ModVersion": 3,
+	"GameVersion": 2.052,
+	"Date": "31/05/2021",
+	"Dependencies": [],
+	"Disabled": 1,
+	"AllowSteamAchievs": 1
+}

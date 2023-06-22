@@ -1,0 +1,12 @@
+{
+	"Name": "Hooks Control",
+	"ID": "srkHooksControl",
+	"Author": "Sherirk",
+	"Description": "Allows to modify mod hooks order. Useful if you want to test mod compatibility or if, like me, your mods don't register their hooks in the order you set them to.",
+	"ModVersion": 2,
+	"GameVersion": 2.052,
+	"Date": "31/05/2023",
+	"Dependencies": [],
+	"Disabled": 1,
+	"AllowSteamAchievs": 1
+}

@@ -1,0 +1,12 @@
+{
+	"Name": "Number options",
+	"ID": "srkNumberFormatting",
+	"Author": "Sherirk",
+	"Description": "A mod that adds various options for number formatting.",
+	"ModVersion": 3,
+	"GameVersion": 2.052,
+	"Date": "31/05/2023",
+	"Dependencies": [],
+	"Disabled": 1,
+    "AllowSteamAchievs": 1
+}
