@@ -1,4 +1,4 @@
-## [allVersionCookies](allVersionCookies/main.js) [(Steam)](https://steamcommunity.com/sharedfiles/filedetails/?id=2979394125)
+## [allVersionsCookies](allVersionsCookies/main.js) [(Steam)](https://steamcommunity.com/sharedfiles/filedetails/?id=2979394125)
 This mod simply makes both Steamed Cookies and Web Cookies appear in the shop. Currently the game has a check when creating the shop so that the other cookie doesn't appear. The `pool`, `price` and `power` properties of the cookies remain intact, so buying the other cookie will give no CPS boost.
 
 ## [chipsPerSec](chipsPerSec/main.js)
