@@ -1,35 +1,25 @@
-# Instalation
+# Installation
 Make sure you are seeing this through my Github Pages instead of the Github repo. Your URL should start with https://sherirk.github.io/.
 If not, then [click here](https://sherirk.github.io/CookieClickerProjects/mods).
 
 Once in the correct page, you can copy the link given when clicking in the mod's title. Use this url when loading the mod with your favorite method.
 
 <details><summary>Game's console</summary>
-<p>
-
-```
+<pre>
 Game.LoadMod('URL of the mod here, keep the quotes');
-```
-
-</p>
+</pre>
 </details>
 
 <details><summary>Bookmark</summary>
-<p>
-
-```
+<pre>
 javascript: (function() {
     Game.LoadMod('URL of the mod here, keep the quotes');
 }());
-```
-
-</p>
+</pre>
 </details>
 
 <details><summary>Tampermonkey/Greasemonkey/Violentmonkey script</summary>
-<p>
-
-```
+<pre>
 // ==UserScript==
 // @name Cookie Clicker OC Ideas
 // @namespace Cookie Clicker OC Ideas
@@ -49,9 +39,7 @@ javascript: (function() {
         }
     }, 1000);
 })();
-```
-
-</p>
+</pre>
 </details>
 
 <details><summary>CCMM/YACCMM/Cppkies</summary>
