@@ -21,7 +21,7 @@ javascript: (function() {
 <details><summary>Tampermonkey/Greasemonkey/Violentmonkey script</summary>
 <pre>
 // ==UserScript==
-// @name MOD NAME
+// @name NAME OF THE MOD
 // @include http://orteil.dashnet.org/cookieclicker/
 // @include https://orteil.dashnet.org/cookieclicker/
 // @include http://orteil.dashnet.org/cookieclicker/beta/
