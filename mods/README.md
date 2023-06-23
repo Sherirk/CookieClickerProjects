@@ -21,13 +21,11 @@ javascript: (function() {
 <details><summary>Tampermonkey/Greasemonkey/Violentmonkey script</summary>
 <pre>
 // ==UserScript==
-// @name Cookie Clicker OC Ideas
-// @namespace Cookie Clicker OC Ideas
+// @name MOD NAME
 // @include http://orteil.dashnet.org/cookieclicker/
 // @include https://orteil.dashnet.org/cookieclicker/
 // @include http://orteil.dashnet.org/cookieclicker/beta/
 // @include https://orteil.dashnet.org/cookieclicker/beta/
-// @version github-latest
 // @grant none
 // ==/UserScript==
 
