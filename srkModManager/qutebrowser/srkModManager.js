@@ -7,6 +7,25 @@
 // @run-at document-end
 // ==/UserScript==
 
+var modlessReload=document.createElement('div');
+modlessReload.id='modlessReloadButton';
+l('versionNumber').before(modlessReload);
+modlessReload.addEventListener('mousedown',(event)=>{
+    if (event.buttons==1) {
+        PlaySound('snd/tick.mp3');
+        Meta.modsPopup();
+    } else if (event.buttons==2) {
+        if (Game.modless) {
+            MM.requset({req:'update mods', mods:Meta.mods});
+            Game.toReload=true;
+        } else {
+            MM.request({req:'modless'});
+            Game.toReload=true;
+        }
+    }
+});
+modlessReload.addEventListener('contextmenu', (event)=>event.preventDefault());
+
 Meta={ready:0,
     init:function(){
         if (App){Game.Notify('Mod Manager not loaded','The steam version already has a great manager!',[32,17]);return false;};
@@ -221,7 +240,7 @@ Meta={ready:0,
         for (let i=0;i<Meta.mods.length;i++)
         {
             let mod=Meta.mods[i];
-            if (Game.modless) mod.disabled=true;
+            if (Game.modless) continue;
             if (mod.disabled) continue;
             if (mod.url)
             {
@@ -303,7 +322,7 @@ Meta={ready:0,
                     '<a class="option warning" id="modRemove" '+Game.clickStr+'="Playsound("snd/tick.mp3");">'+loc("Remove")+'</a>'+
                     '<div style="margin:4px;"><span class="tag" style="margin-top:0px;vertical-align:middle;">'+loc("URL")+': </span>'+mod.urlStr+'</div>'+
                     '<div class="line"></div>'+
-                    '<a class="option" id="modAdd" '+Game.clickStr+'="PlaySound("snd/tick.mp3");" style="width:auto">'+loc("Add mod")+'</a>';
+                    '<a class="option'+(Game.modless?' off':'')+'" id="modAdd" '+Game.clickStr+'="PlaySound("snd/tick.mp3");" style="width:auto">'+loc("Add mod")+'</a>';
 
                     AddEvent(l('modDisable'),'click',()=>{if (!mod.url){updateModOptions();return false;}changeMods();mod.disabled=!mod.disabled;updateModList();});
                     AddEvent(l('modPUp'),'click',()=>{if (mods.indexOf(mod)==0){return false;}changeMods();mods.splice(mods.indexOf(mod)-1,0,mods.splice(mods.indexOf(mod),1)[0]);updateModList();});
@@ -311,18 +330,18 @@ Meta={ready:0,
                     AddEvent(l('modName'),'change',()=>{mod.name=l('modName').value;changeMods();updateModList();});
                     AddEvent(l('urlInput'),'change',()=>{mod.url=l('urlInput').value;changeMods();updateModList();});
                     AddEvent(l('modRemove'),'click',()=>{mods.splice(mods.indexOf(selectedMod),1);selectedMod=0;changeMods();updateModList();});
-                    AddEvent(l('modAdd'),'click',()=>{Meta.newModPopup()});
                     l('modName').value=mod.name;
             }
             else el.innerHTML=
-                loc("Select a mod.")+'<div class="line"></div>'+'<a class="option" id="modAdd" style="width:auto">'+loc("Add mod")+'</a>';
+                loc("Select a mod.")+'<div class="line"></div>'+'<a class="option'+(Game.modless?' off':'')+'" id="modAdd" '+Game.clickStr+'="PlaySound("snd/tick.mp3");" style="width:auto">'+loc("Add mod")+'</a>';
 
-            AddEvent(l('modAdd'),'click',()=>{PlaySound('snd/tick.mp3');Meta.newModPopup()});
+            AddEvent(l('modAdd'),'click',()=>{if(Game.modless){return false};Meta.newModPopup()});
         }
         Game.Prompt('<id ManageMods>'+
         '<h3>'+loc("Manage mods")+'</h3>'+
             '<div class="line"></div>'+
             '<div style="font-size:11px;opacity:0.7;">'+loc("Mods are loaded from top to bottom.")+'</div>'+
+            (Game.modless?('<div style="font-size:11px;opacity:0.7;" class="warning">'+loc("Currently running the game in modless mode. You can use the manager to fix any issues but no mod will be loaded until a restart.")+'</div>'):'')+
             '<div class="line"></div>'+
             '<div style="height:300px;width:100%;position:relative;margin:12px 0px;">'+
                 '<div class="inner" style="font-size:11px;height:100%;width:50%;overflow-x:hidden;overflow-y:scroll;position:absolute;left:0px;" id="modList"></div>'+
@@ -394,6 +413,7 @@ Meta={ready:0,
     },
     delay:function(){
         if(Game && Game.ready){
+            if(MM.modless)Game.modless=1;MM.modless=false;
             Meta.init();
         } else {
             requestAnimationFrame(Meta.delay);
@@ -404,13 +424,15 @@ Meta={ready:0,
 MM = {};
 
 MM.loadData = function(callback){
-    MM.mods=JSON.parse(GM_getValue('mods', '[]'));
+    var data=JSON.parse(GM_getValue('data', '{"modless":false, "mods":[]}'));
+    MM.mods=data.mods;
+    MM.modless=data.modless;
     if (MM.mods.length) console.log(MM.mods);
     callback();
 }
 
 MM.saveData = function(){
-    GM_setValue('mods', JSON.stringify(MM.mods));
+    GM_setValue('data', JSON.stringify({modless:MM.modless, mods:MM.mods}));
 }
 
 //This is the "App" listening to the game
@@ -426,7 +448,10 @@ MM.request = function(data){
             MM.mods=data.mods;
             MM.saveData();
 
-        }
+        } else if (data.req=='modless') {
+	    MM.modless=true;
+	    MM.saveData();
+	}
     }
 };
 
@@ -447,8 +472,24 @@ var styles = "input.Meta:focus{outline:none;}\n"+
     "    border:1px solid #e2dd48;\n"+
     "    border-color:#ece2b6 #875526 #733726 #dfbc9a;\n"+
     "    border-radius:4px;\n"+
-    "	box-shadow:0px 0px 0px 1px rgba(0,0,0,0.5) inset,0px 1px 2px rgba(0,0,0,0.5) inset;\n"+
+    "	 box-shadow:0px 0px 0px 1px rgba(0,0,0,0.5) inset,0px 1px 2px rgba(0,0,0,0.5) inset;\n"+
     "    text-align:center;\n"+
+    "}\n"+
+    "#modlessReloadButton\n"+
+    "{\n"+
+    "    position: absolute;\n"+
+    "    left: calc(30% - 24px);\n"+
+    "    bottom: 0px;\n"+
+    "    height: 16px;\n"+
+    "    width: 16px;\n"+
+    "    margin: 8px;\n"+
+    "    cursor: pointer;\n"+
+    "    z-index: 6;\n"+
+    "    background: -400px -560px/576px 592px url(img/icons.png)\n"+
+    "}\n"+
+    ".lumpsOn #modlessReloadButton\n"+
+    "{\n"+
+    "    bottom: 15px;\n"+
     "}";
 
 var styleSheet = document.createElement('style');

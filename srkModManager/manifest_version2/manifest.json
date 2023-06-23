@@ -12,7 +12,9 @@
         {
             "matches": [
                 "*://orteil.dashnet.org/cookieclicker/",
-                "*://orteil.dashnet.org/cookieclicker/beta/"
+                "*://orteil.dashnet.org/cookieclicker/?*",
+                "*://orteil.dashnet.org/cookieclicker/beta/",
+                "*://orteil.dashnet.org/cookieclicker/beta/?*"
             ],
             "js": ["main.js"]
         }

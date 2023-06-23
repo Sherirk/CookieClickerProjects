@@ -42,19 +42,27 @@ MM.loadData = function(callback){
 
     function onGot(item){
         console.log('storage', item);
-        if(item.mods){
-            MM.mods = item.mods;
+        if(item.data && item.data.modless){
+            MM.modless = item.data.modless;
+        }else{
+            MM.modless = false;
+        }
+        if(item.data && item.data.mods){
+            MM.mods = item.data.mods;
         }else{
             MM.mods = [];
         }
         callback();
     }
-    browser.storage.local.get('mods').then(onGot, onError);
+    browser.storage.local.get('data').then(onGot, onError);
 }
 
 MM.saveData = function(){
     browser.storage.local.set({
-        mods: MM.mods
+        data: {
+            modless: MM.modless,
+            mods: MM.mods
+        }
     });
 }
 
@@ -89,7 +97,12 @@ MM.request = function(data) {
             MM.saveData();
 
         } else if (data.req=='get mods') {
-            MM.send({req:'update mods', mods:MM.mods, callback:data.callback});
+            MM.send({req:'update mods', mods:MM.mods, callback:(MM.modless?'Game.modless=1;'+data.callback:data.callback)});
+            MM.modless=false;
+
+        } else if (data.req=='modless') {
+            MM.modless=true;
+            MM.saveData();
         }
     }
 };
@@ -113,6 +126,22 @@ injection=function(){
         "    border-radius:4px;\n"+
         "	 box-shadow:0px 0px 0px 1px rgba(0,0,0,0.5) inset,0px 1px 2px rgba(0,0,0,0.5) inset;\n"+
         "    text-align:center;\n"+
+        "}\n"+
+        "#modlessReloadButton\n"+
+        "{\n"+
+        "    position: absolute;\n"+
+        "    left: calc(30% - 24px);\n"+
+        "    bottom: 0px;\n"+
+        "    height: 16px;\n"+
+        "    width: 16px;\n"+
+        "    margin: 8px;\n"+
+        "    cursor: pointer;\n"+
+        "    z-index: 6;\n"+
+        "    background: -400px -560px/576px 592px url(img/icons.png)\n"+
+        "}\n"+
+        ".lumpsOn #modlessReloadButton\n"+
+        "{\n"+
+        "    bottom: 15px;\n"+
         "}";
 
     var styleSheet = document.createElement('style');

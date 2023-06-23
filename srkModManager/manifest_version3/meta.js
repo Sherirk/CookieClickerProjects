@@ -1,3 +1,22 @@
+var modlessReload=document.createElement('div');
+modlessReload.id='modlessReloadButton';
+l('versionNumber').before(modlessReload);
+modlessReload.addEventListener('mousedown',(event)=>{
+    if (event.buttons==1) {
+        PlaySound('snd/tick.mp3');
+        Meta.modsPopup();
+    } else if (event.buttons==2) {
+        if (Game.modless) {
+            Meta.send({req:'update mods', mods:Meta.mods});
+            Game.toReload=true;
+        } else {
+            Meta.send({req:'modless'});
+            Game.toReload=true;
+        }
+    }
+});
+modlessReload.addEventListener('contextmenu', (event)=>event.preventDefault());
+
 Meta={ready:0,
     init:function(){
         if (App){Game.Notify('Mod Manager not loaded','The steam version already has a great manager!',[32,17]);return false;};
@@ -213,7 +232,7 @@ Meta={ready:0,
         for (let i=0;i<Meta.mods.length;i++)
         {
             let mod=Meta.mods[i];
-            if (Game.modless) mod.disabled=true;
+            if (Game.modless) continue;
             if (mod.disabled) continue;
             if (mod.url)
             {
@@ -295,7 +314,7 @@ Meta={ready:0,
                     '<a class="option warning" id="modRemove" '+Game.clickStr+'="Playsound("snd/tick.mp3");">'+loc("Remove")+'</a>'+
                     '<div style="margin:4px;"><span class="tag" style="margin-top:0px;vertical-align:middle;">'+loc("URL")+': </span>'+mod.urlStr+'</div>'+
                     '<div class="line"></div>'+
-                    '<a class="option" id="modAdd" '+Game.clickStr+'="PlaySound("snd/tick.mp3");" style="width:auto">'+loc("Add mod")+'</a>';
+                    '<a class="option'+(Game.modless?' off':'')+'" id="modAdd" '+Game.clickStr+'="PlaySound("snd/tick.mp3");" style="width:auto">'+loc("Add mod")+'</a>';
 
                     AddEvent(l('modDisable'),'click',()=>{if (!mod.url){updateModOptions();return false;}changeMods();mod.disabled=!mod.disabled;updateModList();});
                     AddEvent(l('modPUp'),'click',()=>{if (mods.indexOf(mod)==0){return false;}changeMods();mods.splice(mods.indexOf(mod)-1,0,mods.splice(mods.indexOf(mod),1)[0]);updateModList();});
@@ -303,18 +322,18 @@ Meta={ready:0,
                     AddEvent(l('modName'),'change',()=>{mod.name=l('modName').value;changeMods();updateModList();});
                     AddEvent(l('urlInput'),'change',()=>{mod.url=l('urlInput').value;changeMods();updateModList();});
                     AddEvent(l('modRemove'),'click',()=>{mods.splice(mods.indexOf(selectedMod),1);selectedMod=0;changeMods();updateModList();});
-                    AddEvent(l('modAdd'),'click',()=>{Meta.newModPopup()});
                     l('modName').value=mod.name;
             }
             else el.innerHTML=
-                loc("Select a mod.")+'<div class="line"></div>'+'<a class="option" id="modAdd" style="width:auto">'+loc("Add mod")+'</a>';
+                loc("Select a mod.")+'<div class="line"></div>'+'<a class="option'+(Game.modless?' off':'')+'" id="modAdd" '+Game.clickStr+'="PlaySound("snd/tick.mp3");" style="width:auto">'+loc("Add mod")+'</a>';
 
-            AddEvent(l('modAdd'),'click',()=>{PlaySound('snd/tick.mp3');Meta.newModPopup()});
+            AddEvent(l('modAdd'),'click',()=>{if(Game.modless){return false};Meta.newModPopup()});
         }
         Game.Prompt('<id ManageMods>'+
         '<h3>'+loc("Manage mods")+'</h3>'+
             '<div class="line"></div>'+
             '<div style="font-size:11px;opacity:0.7;">'+loc("Mods are loaded from top to bottom.")+'</div>'+
+            (Game.modless?('<div style="font-size:11px;opacity:0.7;" class="warning">'+loc("Currently running the game in modless mode. You can use the manager to fix any issues but no mod will be loaded until a restart.")+'</div>'):'')+
             '<div class="line"></div>'+
             '<div style="height:300px;width:100%;position:relative;margin:12px 0px;">'+
                 '<div class="inner" style="font-size:11px;height:100%;width:50%;overflow-x:hidden;overflow-y:scroll;position:absolute;left:0px;" id="modList"></div>'+
