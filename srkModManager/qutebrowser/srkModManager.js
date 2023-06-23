@@ -437,7 +437,6 @@ MM.saveData = function(){
 
 //This is the "App" listening to the game
 MM.request = function(data){
-    console.log(data);
     if (data.req) {
         if (data.req=='add mod') {
             MM.mods.push(data.mod);

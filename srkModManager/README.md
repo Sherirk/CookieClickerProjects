@@ -4,7 +4,7 @@ Browser extension to manage [Cookie Clicker](https://orteil.dashnet.org/cookiecl
 ## Installation
 You can install the extension through your browser's store:
 - [Chrome]()
-- [Firefox]()
+- [Firefox](https://addons.mozilla.org/en-US/firefox/addon/yaccmm/)
 - [Edge]()
 
 If you use the awesome [qutebrowser](https://qutebrowser.org/) browser you can install [srkModManager.js](qutebrowser/srkModManager.js) as you would any other greasemonkey script. Be aware that this script doesn't work as a script for the greasemonkey extension. 
