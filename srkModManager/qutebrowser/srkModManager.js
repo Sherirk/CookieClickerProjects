@@ -7,28 +7,30 @@
 // @run-at document-end
 // ==/UserScript==
 
-var modlessReload=document.createElement('div');
-modlessReload.id='modlessReloadButton';
-l('versionNumber').before(modlessReload);
-modlessReload.addEventListener('mousedown',(event)=>{
-    if (event.buttons==1) {
-        PlaySound('snd/tick.mp3');
-        Meta.modsPopup();
-    } else if (event.buttons==2) {
-        if (Game.modless) {
-            MM.requset({req:'update mods', mods:Meta.mods});
-            Game.toReload=true;
-        } else {
-            MM.request({req:'modless'});
-            Game.toReload=true;
+if (!App){
+    var modlessReload=document.createElement('div');
+    modlessReload.id='modlessReloadButton';
+    l('versionNumber').before(modlessReload);
+    modlessReload.addEventListener('mousedown',(event)=>{
+        if (event.buttons==1) {
+            PlaySound('snd/tick.mp3');
+            Meta.modsPopup();
+        } else if (event.buttons==2) {
+            if (Game.modless) {
+                MM.requset({req:'update mods', mods:Meta.mods});
+                Game.toReload=true;
+            } else {
+                MM.request({req:'modless'});
+                Game.toReload=true;
+            }
         }
-    }
-});
-modlessReload.addEventListener('contextmenu', (event)=>event.preventDefault());
+    });
+    modlessReload.addEventListener('contextmenu', (event)=>event.preventDefault());
+}
 
 Meta={ready:0,
     init:function(){
-        if (App){Game.Notify('Mod Manager not loaded','The steam version already has a great manager!',[32,17]);return false;};
+        if (App){Game.Notify('Mod Manager not loaded','The steam version already has a mod manager!',[32,17]);return false;};
 
         var menu = Game.UpdateMenu;
         eval("Game.UpdateMenu = " + menu.toString().slice(0,-1) + "\n" +
@@ -254,6 +256,7 @@ Meta={ready:0,
             console.log('loaded mods:', loadedMods.join(',')||'(none)');
             Meta.ready=1;
             if(callback) callback();
+            if(callback) Game.runModHook('create'); //Game runs it before setting Game.ready to 1. Should not give any problem unless a mod with a create hook is run before the manager (maybe via another extension?)
         });
     },
     modsPopup:function(){
