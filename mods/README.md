@@ -1,3 +1,67 @@
+# Instalation
+Make sure you are seeing this through my Github Pages instead of the Github repo. Your URL should start with https://sherirk.github.io/.
+If not, then [click here](https://sherirk.github.io/CookieClickerProjects/mods).
+
+Once in the correct page, you can copy the link given when clicking in the mod's title. Use this url when loading the mod with your favorite method.
+
+<details><summary>Game's console</summary>
+<p>
+
+```
+Game.LoadMod('URL of the mod here, keep the quotes');
+```
+
+</p>
+</details>
+
+<details><summary>Bookmark</summary>
+<p>
+
+```
+javascript: (function() {
+    Game.LoadMod('URL of the mod here, keep the quotes');
+}());
+```
+
+</p>
+</details>
+
+<details><summary>Tampermonkey/Greasemonkey/Violentmonkey script</summary>
+<p>
+
+```
+// ==UserScript==
+// @name Cookie Clicker OC Ideas
+// @namespace Cookie Clicker OC Ideas
+// @include http://orteil.dashnet.org/cookieclicker/
+// @include https://orteil.dashnet.org/cookieclicker/
+// @include http://orteil.dashnet.org/cookieclicker/beta/
+// @include https://orteil.dashnet.org/cookieclicker/beta/
+// @version github-latest
+// @grant none
+// ==/UserScript==
+
+(function() {
+    const checkReady = setInterval(function() {
+        if (typeof Game.ready !== 'undefined' && Game.ready) {
+            Game.LoadMod('URL of the mod here, keep the quotes');
+            clearInterval(checkReady);
+        }
+    }, 1000);
+})();
+```
+
+</p>
+</details>
+
+<details><summary>CCMM/YACCMM/Cppkies</summary>
+<p>
+
+Use the URL you got without any changes.
+
+</p>
+</details>
+
 ## [allVersionsCookies](allVersionsCookies/main.js) [(Steam)](https://steamcommunity.com/sharedfiles/filedetails/?id=2979394125)
 This mod simply makes both Steamed Cookies and Web Cookies appear in the shop. Currently the game has a check when creating the shop so that the other cookie doesn't appear. The `pool`, `price` and `power` properties of the cookies remain intact, so buying the other cookie will give no CPS boost.
 
