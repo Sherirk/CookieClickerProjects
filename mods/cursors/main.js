@@ -67,6 +67,6 @@ Game.registerMod("srkCursors",{
     replaceCursors:function() {
         var num = Game.mods['srkCursors'].prefs.darkCursors*1+Game.mods['srkCursors'].prefs.toonCursors*2;
         if (isNaN(num)) num=0;
-        Game.Loader.Replace('cursor.png',Game.mods['srkCursors'].dir+'/cursor'+num+'.png');
+        Game.Loader.Replace('cursor.png',(Game.mods['srkCursors'].dir?Game.mods['srkCursors']:'https://sherirk.github.io/CookieClickerProjects/mods/cursors')+'/cursor'+num+'.png');
     },
 });
