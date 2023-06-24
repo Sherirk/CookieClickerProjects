@@ -17,7 +17,7 @@ Game.registerMod("srkHooksControl",{
                 var modHookButton = document.createElement("div");
                 modHookButton.classList.add("listing");
                 modHookButton.innerHTML = '<div class="title">Hooks<title>'
-                modHookButton.innerHTML += '<a class="option smallFancyButton" '+Game.clickStr+'="Game.mods[\'srkHooksControl\'].getHooksPopup();";>'+loc("Manage")+'</a><br>';
+                modHookButton.innerHTML += '<a class="option smallFancyButton" '+Game.clickStr+'="Playsound(\'snd/tick.mp3\');Game.mods[\'srkHooksControl\'].getHooksPopup();";>'+loc("Manage")+'</a><br>';
                 //Place buttons
 				var allSections = document.querySelectorAll('#menu > div.block > div.subsection')
 				var modsSection = allSections.length>2?document.querySelectorAll('#menu > div.block > div.subsection')[2]:document.querySelectorAll('#menu > div.block > div.subsection')[1];
