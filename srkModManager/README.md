@@ -5,7 +5,7 @@ Browser extension to manage [Cookie Clicker](https://orteil.dashnet.org/cookiecl
 
 ## Installation
 You can install the extension through your browser's store:
-- Chrome (waiting validation)
+- [Chrome](https://chrome.google.com/webstore/detail/yet-another-cookie-clicke/phnpkckppepelhahjbjoookeeoeffhhg)
 - [Firefox](https://addons.mozilla.org/en-US/firefox/addon/yaccmm/)
 - Edge (waiting validation)
 
